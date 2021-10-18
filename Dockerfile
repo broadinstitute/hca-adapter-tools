@@ -1,23 +1,26 @@
-FROM python:3.6.11
+FROM python:3.9-alpine
 
-LABEL maintainer="Mint Team <mintteam@broadinstitute.org>" \
-  software="Python" \
-  description="Python3 library used for processing notifications from HCA DCP and doing submissions."
+LABEL MAINTAINER="Broad Institute DSDE <dsde-engineering@broadinstitute.org>" 
 
-RUN mkdir /tools
+ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 WORKDIR /tools
 
 COPY . .
 
-RUN apt-get update && apt-get -y install jq
+RUN set eux;\
+        apk add --no-cache \
+            bash \
+            curl \
+            git \
+            jq \
+            tini \
+    ; \
+# Install adapter_tools
+pip install . --trusted-host github.com \
+    ; \
+# Install gsutil
+curl -sSL https://sdk.cloud.google.com | bash
 
-# Get latest setuptools because metadata-api installation fails without at least 40.1.0
-RUN pip install -U setuptools
-
-RUN pip install . --trusted-host github.com
-
-# Install gsutil to get crc32c and file size from cloud data
-RUN curl -sSL https://sdk.cloud.google.com | bash
-
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+# Set tini as default entrypoint
+ENTRYPOINT [ "/sbin/tini", "--" ]
