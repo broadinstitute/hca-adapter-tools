@@ -1,7 +1,7 @@
 name: Build and Push to GCR
 on: [push]
 env:
-  IMAGE: us.gcr.io/broad-gotc-prod/pipeline-tools
+  IMAGE: us.gcr.io/broad-gotc-prod/hca-adapter-tools
 
 jobs: 
   build-push:
