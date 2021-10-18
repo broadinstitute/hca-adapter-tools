@@ -2,6 +2,10 @@ version: 3
 
 groups:
   software-review:
+    conditions:
+      - "'eng-only' not in labels"
+      - "base.ref == 'master'"
+      - "base.ref == 'develop'"
     reviews:
       required: 1
       author_value: 1
@@ -12,7 +16,12 @@ groups:
         - cheyenne-gold
         - jessicaway
         - nikellepetrillo
-      
+
+overrides:
+- if : "'Build' in check_runs.failed"
+  status: failure
+  explanation: "Container is failing to build"
+
 notifications:
 - when: pullapprove.approved
   if: "author_association == 'CONTRIBUTOR'"
