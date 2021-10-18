@@ -7,8 +7,12 @@ from datetime import datetime
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--timestamp', dest='timestamp', required=True,
-                        help='Timestamp from gs:// in Day, DD MONTH YYYY HH::MM:SS format')
+    parser.add_argument(
+        '--timestamp',
+        dest='timestamp',
+        required=True,
+        help='Timestamp from gs:// in Day, DD MONTH YYYY HH::MM:SS format',
+    )
 
     args = parser.parse_args()
 

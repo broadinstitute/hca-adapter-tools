@@ -12,7 +12,7 @@ from adapter_tools.utilities import format_map
 from distutils.util import strtobool
 
 
-class LinksFile():
+class LinksFile:
     """LinksFile class implements the creation of a json file that contains the linked metadata for a given run of optimus or ss2
 
     The json file created should have the following form:
@@ -84,7 +84,8 @@ class LinksFile():
         ss2_bai="",
         ss2_fastq1="",
         ss2_fastq2="",
-            project_level=False):
+        project_level=False,
+    ):
 
         print(input_uuids)
         print(pipeline_type)
@@ -146,29 +147,29 @@ class LinksFile():
         """Links file json for Optimus, will contain only a single 'links' object in the list"""
 
         return {
-            "describedBy" : self.describedBy,
-            "schema_type" : self.schema_type,
-            "schema_version" : self.schema_version,
-            "links" : [
+            "describedBy": self.describedBy,
+            "schema_type": self.schema_type,
+            "schema_version": self.schema_version,
+            "links": [
                 {
-                    "process_type" : self.process_type,
-                    "link_type" : self.link_type,
-                    "process_id" : self.__process_id__(),
-                    "inputs" : self.__optimus_inputs__(),
-                    "outputs" : self.__outputs__(),
-                    "protocols" : self.__protocols__()
+                    "process_type": self.process_type,
+                    "link_type": self.link_type,
+                    "process_id": self.__process_id__(),
+                    "inputs": self.__optimus_inputs__(),
+                    "outputs": self.__outputs__(),
+                    "protocols": self.__protocols__(),
                 }
-            ]
+            ],
         }
 
     def __links_file_ss2__(self):
         """Links file json for SS2, will contain multiple 'links' object in the list"""
 
         return {
-            "describedBy" : self.describedBy,
-            "schema_type" : self.schema_type,
-            "schema_version" : self.schema_version,
-            "links" : self.__ss2_links__()
+            "describedBy": self.describedBy,
+            "schema_type": self.schema_type,
+            "schema_version": self.schema_version,
+            "links": self.__ss2_links__(),
         }
 
     def __ss2_links__(self):
@@ -188,7 +189,7 @@ class LinksFile():
                 "process_id": self.__process_id__(index),
                 "inputs": self.__ss2_intermediate_inputs__(index),
                 "outputs": self.__ss2_intermediate_outputs__(index),
-                "protocols": self.__protocols__(index)
+                "protocols": self.__protocols__(index),
             }
             links.append(links_element)
 
@@ -204,23 +205,21 @@ class LinksFile():
 
         bam_hashes, bai_hashes = self.__hashes__()
 
-        bam_inputs = list(map(lambda x : {
-            "input_id" : x,
-            "input_type" : "analysis_file"
-        }, bam_hashes))
+        bam_inputs = list(
+            map(lambda x: {"input_id": x, "input_type": "analysis_file"}, bam_hashes)
+        )
 
-        bai_inputs = list(map(lambda x : {
-            "input_id" : x,
-            "input_type" : "analysis_file"
-        }, bai_hashes))
+        bai_inputs = list(
+            map(lambda x: {"input_id": x, "input_type": "analysis_file"}, bai_hashes)
+        )
 
         return {
-            "process_type" : self.process_type,
-            "link_type" : self.link_type,
+            "process_type": self.process_type,
+            "link_type": self.link_type,
             "process_id": self.__process_id__(),
-            "inputs" : [*bam_inputs, *bai_inputs],
-            "outputs" : self.__outputs__(),
-            "protocols" : self.__protocols__()
+            "inputs": [*bam_inputs, *bai_inputs],
+            "outputs": self.__outputs__(),
+            "protocols": self.__protocols__(),
         }
 
     def __optimus_inputs__(self):
@@ -232,8 +231,14 @@ class LinksFile():
 
         inputs = []
         for input_uuid in self.input_uuids:
-            inputs.append({'input_type': "analysis_file" if self.project_level else "sequence_file",
-                          'input_id': input_uuid})
+            inputs.append(
+                {
+                    'input_type': "analysis_file"
+                    if self.project_level
+                    else "sequence_file",
+                    'input_id': input_uuid,
+                }
+            )
         return inputs
 
     def __ss2_intermediate_inputs__(self, index):
@@ -247,17 +252,13 @@ class LinksFile():
             intermediate_input (array[obj]): Array of input files (sequence files) for the intermediate SS2 run"""
 
         intermediate_input = [
-            {
-                "input_id" : self.ss2_fastq1[index],
-                "input_type" : "sequence_file"
-            }
+            {"input_id": self.ss2_fastq1[index], "input_type": "sequence_file"}
         ]
 
         if self.ss2_fastq2:
-            intermediate_input.append({
-                "input_id" : self.ss2_fastq2[index],
-                "input_type" : "sequence_file"
-            })
+            intermediate_input.append(
+                {"input_id": self.ss2_fastq2[index], "input_type": "sequence_file"}
+            )
 
         return intermediate_input
 
@@ -273,14 +274,8 @@ class LinksFile():
         bam_hashes, bai_hashes = self.__hashes__()
 
         intermediate_output = [
-            {
-                "output_id": bam_hashes[index],
-                "output_type": "analysis_file"
-            },
-            {
-                "output_id": bai_hashes[index],
-                "output_type": "analysis_file"
-            }
+            {"output_id": bam_hashes[index], "output_type": "analysis_file"},
+            {"output_id": bai_hashes[index], "output_type": "analysis_file"},
         ]
 
         return intermediate_output
@@ -296,8 +291,16 @@ class LinksFile():
             bam_file = self.ss2_bam[index]
             bai_file = self.ss2_bai[index]
 
-            bam_hash = format_map.get_file_entity_id(uuid, format_map.get_entity_type(bam_file), os.path.splitext(bam_file)[1])
-            bai_hash = format_map.get_file_entity_id(uuid, format_map.get_entity_type(bai_file), os.path.splitext(bai_file)[1])
+            bam_hash = format_map.get_file_entity_id(
+                uuid,
+                format_map.get_entity_type(bam_file),
+                os.path.splitext(bam_file)[1],
+            )
+            bai_hash = format_map.get_file_entity_id(
+                uuid,
+                format_map.get_entity_type(bai_file),
+                os.path.splitext(bai_file)[1],
+            )
 
             bam_hashes.append(bam_hash)
             bai_hashes.append(bai_hash)
@@ -329,9 +332,14 @@ class LinksFile():
 
         return [
             {
-                "protocol_type" : "analysis_protocol",
-                "protocol_id" : re.findall(self.uuid_regex, self.analysis_protocol_path)[-1] if index == ""
-                else re.findall(self.uuid_regex, self.analysis_protocol_list_path[index])[-1]
+                "protocol_type": "analysis_protocol",
+                "protocol_id": re.findall(self.uuid_regex, self.analysis_protocol_path)[
+                    -1
+                ]
+                if index == ""
+                else re.findall(
+                    self.uuid_regex, self.analysis_protocol_list_path[index]
+                )[-1],
             }
         ]
 
@@ -345,7 +353,7 @@ class LinksFile():
         Returns:
             process_id (string): process id in the form 151fe264-c670-4c77-a47c-530ff6b3127b"""
 
-        if index == "" :
+        if index == "":
             return re.findall(self.uuid_regex, self.analysis_process_path)[-1]
 
         return re.findall(self.uuid_regex, self.analysis_process_list_path[index])[-1]
@@ -379,7 +387,8 @@ def test_build_links_file(
     workspace_version,
     analysis_process_path,
     analysis_protocol_path,
-        project_level=False):
+    project_level=False,
+):
 
     test_links_file = LinksFile(
         project_id,
@@ -389,7 +398,8 @@ def test_build_links_file(
         workspace_version,
         analysis_process_path,
         analysis_protocol_path,
-        project_level)
+        project_level,
+    )
 
     return test_links_file.get_json()
 
@@ -397,21 +407,81 @@ def test_build_links_file(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--project_id', required=True, help='The project ID')
-    parser.add_argument("--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)")
-    parser.add_argument('--input_uuids', required=False, nargs='+', help='List of UUIDs for the Optimus inputs (fastq for intermediate runs, intermediate looms for project runs)')
-    parser.add_argument('--input_uuids_path', required=False, help='Localized path to the list of input uuids for SS2')
-    parser.add_argument('--analysis_process_path', required=True, help='Path to the /metadata/analysis_process.json file for Optimus (both levels) and SS2 project-level')
-    parser.add_argument('--analysis_protocol_path', required=True, help='Path to the /metadata/analysis_protocol.json file for Optimus (both levels) and SS2 project-level')
-    parser.add_argument('--analysis_process_list_path', required=False, help='Localized path to the list of analysis process files /metadata/analysis_process.json for SS2 Intermediate')
-    parser.add_argument('--analysis_protocol_list_path', required=False, help='Localized path to the list of analysis protocol files /metadata/analysis_protocol.json file for SS2 Intermediate, this will be a single value')
-    parser.add_argument("--project_level", required=True, type=lambda x: bool(strtobool(x)), help="Boolean representing project level vs intermediate level")
-    parser.add_argument('--workspace_version', required=True, help='A version (or timestamp) attribute shared across all workflows within an individual workspace.')
-    parser.add_argument('--output_file_path', required=True, help='Path to the outputs.json file for Optimus, path to project level loom for ss2')
-    parser.add_argument('--file_name_string', required=True, help='Input ID (a unique input ID to incorporate into the links UUID) OR project stratum string (concatenation of the project, library, species, and organ).')
-    parser.add_argument('--ss2_bam', required=False, help="Localized path to array of bam files for the ss2 runs, used to build the file hashes")
-    parser.add_argument('--ss2_bai', required=False, help="Localized path to array of bai files for the ss2 runs, used to build the file hashes")
-    parser.add_argument('--ss2_fastq1', required=False, help="Localized path to array of fastq1 UUIDS for ss2 runs")
-    parser.add_argument('--ss2_fastq2', required=False, help="Localized path to array of fastq2 UUIDSfor ss2 runs")
+    parser.add_argument(
+        "--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)"
+    )
+    parser.add_argument(
+        '--input_uuids',
+        required=False,
+        nargs='+',
+        help='List of UUIDs for the Optimus inputs (fastq for intermediate runs, intermediate looms for project runs)',
+    )
+    parser.add_argument(
+        '--input_uuids_path',
+        required=False,
+        help='Localized path to the list of input uuids for SS2',
+    )
+    parser.add_argument(
+        '--analysis_process_path',
+        required=True,
+        help='Path to the /metadata/analysis_process.json file for Optimus (both levels) and SS2 project-level',
+    )
+    parser.add_argument(
+        '--analysis_protocol_path',
+        required=True,
+        help='Path to the /metadata/analysis_protocol.json file for Optimus (both levels) and SS2 project-level',
+    )
+    parser.add_argument(
+        '--analysis_process_list_path',
+        required=False,
+        help='Localized path to the list of analysis process files /metadata/analysis_process.json for SS2 Intermediate',
+    )
+    parser.add_argument(
+        '--analysis_protocol_list_path',
+        required=False,
+        help='Localized path to the list of analysis protocol files /metadata/analysis_protocol.json file for SS2 Intermediate, this will be a single value',
+    )
+    parser.add_argument(
+        "--project_level",
+        required=True,
+        type=lambda x: bool(strtobool(x)),
+        help="Boolean representing project level vs intermediate level",
+    )
+    parser.add_argument(
+        '--workspace_version',
+        required=True,
+        help='A version (or timestamp) attribute shared across all workflows within an individual workspace.',
+    )
+    parser.add_argument(
+        '--output_file_path',
+        required=True,
+        help='Path to the outputs.json file for Optimus, path to project level loom for ss2',
+    )
+    parser.add_argument(
+        '--file_name_string',
+        required=True,
+        help='Input ID (a unique input ID to incorporate into the links UUID) OR project stratum string (concatenation of the project, library, species, and organ).',
+    )
+    parser.add_argument(
+        '--ss2_bam',
+        required=False,
+        help="Localized path to array of bam files for the ss2 runs, used to build the file hashes",
+    )
+    parser.add_argument(
+        '--ss2_bai',
+        required=False,
+        help="Localized path to array of bai files for the ss2 runs, used to build the file hashes",
+    )
+    parser.add_argument(
+        '--ss2_fastq1',
+        required=False,
+        help="Localized path to array of fastq1 UUIDS for ss2 runs",
+    )
+    parser.add_argument(
+        '--ss2_fastq2',
+        required=False,
+        help="Localized path to array of fastq2 UUIDSfor ss2 runs",
+    )
 
     args = parser.parse_args()
 
@@ -431,14 +501,16 @@ def main():
         args.ss2_bai,
         args.ss2_fastq1,
         args.ss2_fastq2,
-        args.project_level
+        args.project_level,
     )
 
     links_file_json = links_file.get_json()
 
     # Write links to file
     print("Writing links file to disk...")
-    with open(f'{links_file.uuid}_{links_file.version}_{links_file.project}.json', 'w') as f:
+    with open(
+        f'{links_file.uuid}_{links_file.version}_{links_file.project}.json', 'w'
+    ) as f:
         json.dump(links_file_json, f, indent=2, sort_keys=True)
 
 

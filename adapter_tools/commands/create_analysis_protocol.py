@@ -8,7 +8,7 @@ from adapter_tools.utilities import format_map
 from distutils.util import strtobool
 
 
-class AnalysisProtocol():
+class AnalysisProtocol:
     """AnalysisProtocol class implements the creation of a json analysis protocol for Optimus and SS2 pipeline outputs
 
 
@@ -49,25 +49,20 @@ class AnalysisProtocol():
         pipeline_type,
         pipeline_version,
         workspace_version,
-            project_level=False):
+        project_level=False,
+    ):
 
         if project_level:
-            self.type = {
-                "text": "analysis; merge matrices"
-            }
+            self.type = {"text": "analysis; merge matrices"}
         else:
-            self.type = {
-                "text": "analysis_protocol"
-            }
+            self.type = {"text": "analysis_protocol"}
 
         self.input_uuid = input_uuid
         self.pipeline_type = pipeline_type
         self.work_version = workspace_version
         self.pipeline_version = pipeline_version
         self.computational_method = f"https://dockstore.org/workflows/github.com/broadinstitute/warp/{self.pipeline_type}:{self.pipeline_version}"
-        self.protocol_core = {
-            "protocol_id": self.pipeline_version
-        }
+        self.protocol_core = {"protocol_id": self.pipeline_version}
 
     def __analysis_protocol__(self):
         return {
@@ -76,8 +71,8 @@ class AnalysisProtocol():
             "protocol_core": self.protocol_core,
             "provenance": self.__get_provenance(),
             "schema_type": self.schema_type,
-            "schema_version" : self.schema_version,
-            "type": self.type
+            "schema_version": self.schema_version,
+            "type": self.type,
         }
 
     def get_json(self):
@@ -91,7 +86,7 @@ class AnalysisProtocol():
             "describedBy": self.describedBy,
             "protocol_core": self.protocol_core,
             "schema_type": self.schema_type,
-            "type": self.type
+            "type": self.type,
         }
 
     def __get_provenance(self):
@@ -100,10 +95,7 @@ class AnalysisProtocol():
         string_to_hash = json.dumps(self.__get_hash_input())
         entity_id = format_map.get_uuid5(string_to_hash)
 
-        return {
-            "document_id": entity_id,
-            "submission_date": self.workspace_version,
-        }
+        return {"document_id": entity_id, "submission_date": self.workspace_version}
 
     @property
     def entity_id(self):
@@ -118,29 +110,41 @@ class AnalysisProtocol():
 
 # Entry point for unit tests
 def test_build_analysis_protocol(
-    input_uuid,
-    pipeline_type,
-    pipeline_version,
-    workspace_version,
-        project_level=False):
+    input_uuid, pipeline_type, pipeline_version, workspace_version, project_level=False
+):
 
     test_analysis_protocol = AnalysisProtocol(
-        input_uuid,
-        pipeline_type,
-        pipeline_version,
-        workspace_version,
-        project_level
+        input_uuid, pipeline_type, pipeline_version, workspace_version, project_level
     )
     return test_analysis_protocol.get_json()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_uuid", required=True, help="Input file UUID from the HCA Data Browser")
-    parser.add_argument("--pipeline_type", required=True, help="Type of pipeline (SS2, Optimus or OptimusPostProcessing)")
-    parser.add_argument("--workspace_version", required=True, help="Workspace version value i.e. timestamp for workspace")
-    parser.add_argument("--project_level", required=True, type=lambda x: bool(strtobool(x)), help="Boolean representing project level vs intermediate level")
-    parser.add_argument("--pipeline_version", required=True, help="The version of the pipeline, currently provided by the label of the adapter workflow around the analysis workflow.")
+    parser.add_argument(
+        "--input_uuid", required=True, help="Input file UUID from the HCA Data Browser"
+    )
+    parser.add_argument(
+        "--pipeline_type",
+        required=True,
+        help="Type of pipeline (SS2, Optimus or OptimusPostProcessing)",
+    )
+    parser.add_argument(
+        "--workspace_version",
+        required=True,
+        help="Workspace version value i.e. timestamp for workspace",
+    )
+    parser.add_argument(
+        "--project_level",
+        required=True,
+        type=lambda x: bool(strtobool(x)),
+        help="Boolean representing project level vs intermediate level",
+    )
+    parser.add_argument(
+        "--pipeline_version",
+        required=True,
+        help="The version of the pipeline, currently provided by the label of the adapter workflow around the analysis workflow.",
+    )
 
     args = parser.parse_args()
 
@@ -149,14 +153,16 @@ def main():
         args.pipeline_type,
         args.pipeline_version,
         args.workspace_version,
-        args.project_level
+        args.project_level,
     )
 
     # Get the JSON content to be written
     analysis_protocol_json = analysis_protocol.get_json()
 
     # Determine file name
-    analysis_protocol_filename = f"{analysis_protocol.entity_id}_{analysis_protocol.workspace_version}.json"
+    analysis_protocol_filename = (
+        f"{analysis_protocol.entity_id}_{analysis_protocol.workspace_version}.json"
+    )
 
     # Write analysis_protocol to file
     print("Writing analysis_protocol.json to disk...")

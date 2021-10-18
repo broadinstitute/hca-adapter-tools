@@ -33,7 +33,8 @@ MIME_FORMATS = [
     ('application/octet-stream', '.bam'),
     ('application/octet-stream', '.bai'),
     ('application/octet-stream', '.fa'),
-    ('application/octet-stream', '.fasta')]
+    ('application/octet-stream', '.fasta'),
+]
 
 NAMESPACE = uuid.UUID('c6591d1d-27bc-4c94-bd54-1b51f8a2456c')
 
@@ -74,10 +75,10 @@ def get_entity_type(path):
 
     format = get_file_format(path)
 
-    if(format == "fasta"):
+    if format == "fasta":
         return "reference_file"
 
-    elif(format == "bam" or format == "loom" or format == "bai"):
+    elif format == "bam" or format == "loom" or format == "bai":
         return "analysis_file"
     return "unknown"
 
@@ -117,13 +118,19 @@ def get_inputs_ss2(inputs, input_ids_inputs, fastq1_inputs, fastq2_inputs=None):
 
     with open(fastq1_inputs) as f:
         fastq1_files = [id for id in f]
-    fastq1_inputs_dict = {'parameter_name': 'fastq1_input_files', 'parameter_value': fastq1_files}
+    fastq1_inputs_dict = {
+        'parameter_name': 'fastq1_input_files',
+        'parameter_value': fastq1_files,
+    }
     inputs.append(fastq1_inputs_dict)
 
     if fastq2_inputs is not None:
         with open(fastq2_inputs) as f:
             fastq2_files = [id for id in f]
-        fastq2_inputs_dict = {'parameter_name': 'fastq2_input_files', 'parameter_value': fastq2_files}
+        fastq2_inputs_dict = {
+            'parameter_name': 'fastq2_input_files',
+            'parameter_value': fastq2_files,
+        }
         inputs.append(fastq2_inputs_dict)
 
     return inputs
@@ -141,7 +148,9 @@ def get_workflow_inputs(inputs, input_fields):
     return_inputs = []
     for input in inputs:
         if input in input_fields:
-            return_inputs.append({"parameter_name": input, "parameter_value": str(inputs[input])})
+            return_inputs.append(
+                {"parameter_name": input, "parameter_value": str(inputs[input])}
+            )
     return return_inputs
 
 
@@ -208,6 +217,10 @@ def get_call_type(workflow_metadata):
     Returns:
         call_type (string): String to represent which type of call was run for MultiSample SS2
     """
-    call_type = 'MultiSampleSmartSeq2.sc_pe' if workflow_metadata.get('calls').get('MultiSampleSmartSeq2.sc_pe') else 'MultiSampleSmartSeq2.sc_se'
+    call_type = (
+        'MultiSampleSmartSeq2.sc_pe'
+        if workflow_metadata.get('calls').get('MultiSampleSmartSeq2.sc_pe')
+        else 'MultiSampleSmartSeq2.sc_se'
+    )
 
     return call_type

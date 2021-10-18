@@ -12,7 +12,7 @@ from adapter_tools.utilities import format_map
 from distutils.util import strtobool
 
 
-class AnalysisProcess():
+class AnalysisProcess:
     """AnalysisProcess class implements the creation of a  json analysis process for Optimus and SS2 pipeline outputs
 
 
@@ -83,7 +83,8 @@ class AnalysisProcess():
         workspace_version,
         references=[],
         project_level=False,
-            ss2_index=0):
+        ss2_index=0,
+    ):
 
         self.ss2_index = ss2_index
         self.input_uuid = input_uuid
@@ -95,18 +96,18 @@ class AnalysisProcess():
 
     def __analysis_process__(self):
         return {
-            "analysis_run_type" : self.__run_type__(),
-            "describedBy" : self.describedBy,
-            "inputs" : self.__inputs__(),
-            "process_core" : self.__process_core__(),
-            "provenance" : self.__provenance__(),
-            "reference_files" : self.__references_files__(),
-            "schema_type" : self.schema_type,
-            "schema_version" : self.schema_version,
-            "tasks" : self.__tasks__(),
-            "timestamp_start_utc" : self.__timestamp__()[0],
-            "timestamp_stop_utc" : self.__timestamp__()[1],
-            "type": self.__type__()
+            "analysis_run_type": self.__run_type__(),
+            "describedBy": self.describedBy,
+            "inputs": self.__inputs__(),
+            "process_core": self.__process_core__(),
+            "provenance": self.__provenance__(),
+            "reference_files": self.__references_files__(),
+            "schema_type": self.schema_type,
+            "schema_version": self.schema_version,
+            "tasks": self.__tasks__(),
+            "timestamp_start_utc": self.__timestamp__()[0],
+            "timestamp_stop_utc": self.__timestamp__()[1],
+            "type": self.__type__(),
         }
 
     def get_json(self):
@@ -135,10 +136,12 @@ class AnalysisProcess():
         if self.project_level:
             return []
 
-        return [format_map.get_file_entity_id(r,
-                format_map.get_entity_type(r),
-                os.path.splitext(r)[1])
-                for r in self.reference_files]
+        return [
+            format_map.get_file_entity_id(
+                r, format_map.get_entity_type(r), os.path.splitext(r)[1]
+            )
+            for r in self.reference_files
+        ]
 
     def __inputs__(self):
         """Return the inputs to the pipeline based on project or intermediate"""
@@ -147,7 +150,11 @@ class AnalysisProcess():
             return []
 
         workflow_metadata = self.__metadata__()
-        input_fields = self.optimus_input_fields if self.pipeline_type.lower() == "optimus" else self.ss2_input_fields
+        input_fields = (
+            self.optimus_input_fields
+            if self.pipeline_type.lower() == "optimus"
+            else self.ss2_input_fields
+        )
 
         return format_map.get_workflow_inputs(workflow_metadata["inputs"], input_fields)
 
@@ -163,7 +170,9 @@ class AnalysisProcess():
         # If project level run then return AggregateLoom metadata
         if self.pipeline_type.lower() == "ss2":
             if not self.project_level:
-                return metadata["calls"][format_map.get_call_type(metadata)][self.ss2_index]
+                return metadata["calls"][format_map.get_call_type(metadata)][
+                    self.ss2_index
+                ]
             return metadata["calls"]["MultiSampleSmartSeq2.AggregateLoom"][0]
 
         raise UnsupportedPipelineType("Pipeline must be optimus or ss2")
@@ -191,21 +200,22 @@ class AnalysisProcess():
 
         workflow_metadata = self.__metadata__()
 
-        start, end = format_map.format_timestamp(workflow_metadata["start"]), format_map.format_timestamp(workflow_metadata["end"])
+        start, end = (
+            format_map.format_timestamp(workflow_metadata["start"]),
+            format_map.format_timestamp(workflow_metadata["end"]),
+        )
         return [start, end]
 
     def __provenance__(self):
 
         return {
             "document_id": self.__process_id__(),
-            "submission_date": self.workspace_version
+            "submission_date": self.workspace_version,
         }
 
     def __process_core__(self):
 
-        return {
-            "process_id": self.__process_id__()
-        }
+        return {"process_id": self.__process_id__()}
 
     def __run_type__(self):
 
@@ -231,7 +241,8 @@ def test_build_analysis_process(
     pipeline_type,
     workspace_version,
     references=[],
-        project_level=False):
+    project_level=False,
+):
 
     test_analysis_process = AnalysisProcess(
         input_uuid,
@@ -239,20 +250,49 @@ def test_build_analysis_process(
         pipeline_type,
         workspace_version,
         references,
-        project_level
+        project_level,
     )
     return test_analysis_process.get_json()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)")
-    parser.add_argument("--workspace_version", required=True, help="Workspace version value i.e. timestamp for workspace")
-    parser.add_argument("--input_uuid", required=True, help="Input file UUID from the HCA Data Browser (project stratum string for project level)")
-    parser.add_argument("--input_file", required=True, help="Path to the JSON obtained from calling Cromwell /metadata for analysis workflow UUID.")
-    parser.add_argument("--references", required=False, nargs="+", help="File path for the reference genome fasta")
-    parser.add_argument("--project_level", required=True, type=lambda x: bool(strtobool(x)), help="Boolean representing project level vs intermediate level")
-    parser.add_argument("--ss2_index", required=False, type=int, help="The index of the ss2 scatter task, need to grab intermediate run data from metadata.json")
+    parser.add_argument(
+        "--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)"
+    )
+    parser.add_argument(
+        "--workspace_version",
+        required=True,
+        help="Workspace version value i.e. timestamp for workspace",
+    )
+    parser.add_argument(
+        "--input_uuid",
+        required=True,
+        help="Input file UUID from the HCA Data Browser (project stratum string for project level)",
+    )
+    parser.add_argument(
+        "--input_file",
+        required=True,
+        help="Path to the JSON obtained from calling Cromwell /metadata for analysis workflow UUID.",
+    )
+    parser.add_argument(
+        "--references",
+        required=False,
+        nargs="+",
+        help="File path for the reference genome fasta",
+    )
+    parser.add_argument(
+        "--project_level",
+        required=True,
+        type=lambda x: bool(strtobool(x)),
+        help="Boolean representing project level vs intermediate level",
+    )
+    parser.add_argument(
+        "--ss2_index",
+        required=False,
+        type=int,
+        help="The index of the ss2 scatter task, need to grab intermediate run data from metadata.json",
+    )
 
     args = parser.parse_args()
 
@@ -263,7 +303,7 @@ def main():
         args.workspace_version,
         args.references,
         args.project_level,
-        args.ss2_index
+        args.ss2_index,
     )
 
     # Get the JSON content to be written

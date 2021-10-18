@@ -8,7 +8,7 @@ from pipeline_tools.shared.schema_utils import SCHEMAS
 from pipeline_tools.shared.submission import format_map
 
 
-class ReferenceFile():
+class ReferenceFile:
     """ReferenceFile class implements the creation of a json file that contains metadata for a given reference file
 
     The json file created should have the following form:
@@ -52,7 +52,8 @@ class ReferenceFile():
         ncbi_taxon_id,
         reference_type,
         workspace_version,
-            reference_version):
+        reference_version,
+    ):
 
         # Grab the extension of the reference file
         file_extension = os.path.splitext(file_path)[1]
@@ -82,24 +83,19 @@ class ReferenceFile():
 
     def __reference_file__(self):
         return {
-            "assembly_type" : self.assembly_type,
-            "describedBy" : self.describedBy,
-            "file_core" : {
-                "file_name" : self.file_name,
-                "format" : self.file_format
+            "assembly_type": self.assembly_type,
+            "describedBy": self.describedBy,
+            "file_core": {"file_name": self.file_name, "format": self.file_format},
+            "genus_species": {"text": self.genus_species},
+            "ncbi_taxon_id": int(self.ncbi_taxon_id),
+            "provenance": {
+                "document_id": self.file_id,
+                "submission_date": self.workspace_version,
             },
-            "genus_species" : {
-                "text" : self.genus_species
-            },
-            "ncbi_taxon_id" : int(self.ncbi_taxon_id),
-            "provenance" : {
-                "document_id" : self.file_id,
-                "submission_date" : self.workspace_version
-            },
-            "reference_type" : self.reference_type,
-            "reference_version" : self.reference_version,
-            "schema_type" : self.schema_type,
-            "schema_version" : self.schema_version
+            "reference_type": self.reference_type,
+            "reference_version": self.reference_version,
+            "schema_type": self.schema_type,
+            "schema_version": self.schema_version,
         }
 
     def get_json(self):
@@ -125,7 +121,8 @@ def test_create_reference_file(
     ncbi_taxon_id,
     reference_type,
     workspace_version,
-        reference_version):
+    reference_version,
+):
 
     test_reference_file = ReferenceFile(
         file_path,
@@ -136,7 +133,8 @@ def test_create_reference_file(
         ncbi_taxon_id,
         reference_type,
         workspace_version,
-        reference_version)
+        reference_version,
+    )
 
     return test_reference_file.get_json()
 
@@ -144,18 +142,48 @@ def test_create_reference_file(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--genus_species', required=True, help='The genus species')
-    parser.add_argument('--file_path', required=True, help='Path to the reference file.')
-    parser.add_argument('--workspace_version', required=True, help='Timestamp used to version the workspace',)
-    parser.add_argument('--input_uuid', required=True, help='Input file UUID from the HCA Data Browser',)
-    parser.add_argument('--reference_version', required=True, help='The genome version of the reference file',)
-    parser.add_argument('--ncbi_taxon_id', required=True, help='The NCBI taxonomy id associated with the reference',)
-    parser.add_argument('--pipeline_type', required=True, help='Type of pipeline (SS2 or Optimus)')
-    parser.add_argument('--assembly_type', required=True, help='The genome assembly type',
-                        choices=["primary assembly", "complete assembly", "patch assembly"],
-                        )
-    parser.add_argument('--reference_type', required=True, help='The type of the reference_file',
-                        choices=["genome sequence", "transcriptome sequence", "annotation reference", "transcriptome index", "genome sequence index", ],
-                        )
+    parser.add_argument(
+        '--file_path', required=True, help='Path to the reference file.'
+    )
+    parser.add_argument(
+        '--workspace_version',
+        required=True,
+        help='Timestamp used to version the workspace',
+    )
+    parser.add_argument(
+        '--input_uuid', required=True, help='Input file UUID from the HCA Data Browser'
+    )
+    parser.add_argument(
+        '--reference_version',
+        required=True,
+        help='The genome version of the reference file',
+    )
+    parser.add_argument(
+        '--ncbi_taxon_id',
+        required=True,
+        help='The NCBI taxonomy id associated with the reference',
+    )
+    parser.add_argument(
+        '--pipeline_type', required=True, help='Type of pipeline (SS2 or Optimus)'
+    )
+    parser.add_argument(
+        '--assembly_type',
+        required=True,
+        help='The genome assembly type',
+        choices=["primary assembly", "complete assembly", "patch assembly"],
+    )
+    parser.add_argument(
+        '--reference_type',
+        required=True,
+        help='The type of the reference_file',
+        choices=[
+            "genome sequence",
+            "transcriptome sequence",
+            "annotation reference",
+            "transcriptome index",
+            "genome sequence index",
+        ],
+    )
 
     args = parser.parse_args()
 
@@ -169,7 +197,8 @@ def main():
         args.ncbi_taxon_id,
         args.reference_type,
         args.workspace_version,
-        args.reference_version)
+        args.reference_version,
+    )
 
     # Get the json content to be written
     reference_json = reference_file.get_json()

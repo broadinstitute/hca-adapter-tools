@@ -7,11 +7,13 @@ import argparse
 def main():
     description = """Collects input ids from individual analysis file jsons """
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--input-json-files',
-                        dest='input_files',
-                        nargs="+",
-                        required=True,
-                        help="List of json files")
+    parser.add_argument(
+        '--input-json-files',
+        dest='input_files',
+        nargs="+",
+        required=True,
+        help="List of json files",
+    )
 
     args = parser.parse_args()
 

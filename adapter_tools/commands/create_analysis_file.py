@@ -11,7 +11,7 @@ from adapter_tools.utilities import format_map
 from distutils.util import strtobool
 
 
-class AnalysisFile():
+class AnalysisFile:
     """AnalysisFile class implements the creation of a  json analysis file for Optimus and SS2 pipeline outputs
 
 
@@ -59,7 +59,8 @@ class AnalysisFile():
         workspace_version,
         project_level=False,
         ss2_bam_file="",
-            ss2_bai_file=""):
+        ss2_bai_file="",
+    ):
 
         self.input_file = input_file
         self.input_uuid = input_uuid
@@ -81,7 +82,7 @@ class AnalysisFile():
                 "file_core": self.bam_output["file_core"],
                 "provenance": self.bam_output["provenance"],
                 "schema_type": self.schema_type,
-                "schema_version": self.schema_version
+                "schema_version": self.schema_version,
             }
         elif "loom" == file_type:
             return {
@@ -89,7 +90,7 @@ class AnalysisFile():
                 "file_core": self.loom_output["file_core"],
                 "provenance": self.loom_output["provenance"],
                 "schema_type": self.schema_type,
-                "schema_version": self.schema_version
+                "schema_version": self.schema_version,
             }
         elif "bai" == file_type:
             return {
@@ -97,7 +98,7 @@ class AnalysisFile():
                 "file_core": self.bai_output["file_core"],
                 "provenance": self.bai_output["provenance"],
                 "schema_type": self.schema_type,
-                "schema_version": self.schema_version
+                "schema_version": self.schema_version,
             }
         else:
             return {}
@@ -135,7 +136,9 @@ class AnalysisFile():
         # Generate unique file UUID5 by hashing
         # This is deterministic and should always produce the same output given the same input
         # file_save_id is used to save the analysis file - {file_save_id}_{workspace_verison}.json
-        self.file_save_id = format_map.get_file_entity_id(self.input_uuid, entity_type, file_extension)
+        self.file_save_id = format_map.get_file_entity_id(
+            self.input_uuid, entity_type, file_extension
+        )
 
         return self.file_save_id
 
@@ -154,38 +157,40 @@ class AnalysisFile():
                         "file_name": outputs[output].split("/")[-1],
                         "file_source": self.file_source,
                         "format": format_map.get_file_format(outputs[output]),
-                        "content_description": [self.LOOM_CONTENT_DESCRIPTION]
-                    }
+                        "content_description": [self.LOOM_CONTENT_DESCRIPTION],
+                    },
                 }
                 if self.project_level:
-                    self.loom_output["provenance"]["submitter_id"] = "e67aaabe-93ea-564a-aa66-31bc0857b707"
+                    self.loom_output["provenance"][
+                        "submitter_id"
+                    ] = "e67aaabe-93ea-564a-aa66-31bc0857b707"
             elif outputs[output].endswith(".bam"):
                 # Generate bam output
                 self.bam_output = {
                     "provenance": {
                         "document_id": self.__get_file_save_id__(outputs[output]),
-                        "submission_date": self.workspace_version
+                        "submission_date": self.workspace_version,
                     },
                     "file_core": {
                         "file_name": outputs[output].split("/")[-1],
                         "file_source": self.file_source,
                         "format": format_map.get_file_format(outputs[output]),
-                        "content_description": [self.BAM_CONTENT_DESCRIPTION]
-                    }
+                        "content_description": [self.BAM_CONTENT_DESCRIPTION],
+                    },
                 }
             elif outputs[output].endswith(".bai"):
                 # Generate bai output
                 self.bai_output = {
                     "provenance": {
                         "document_id": self.__get_file_save_id__(outputs[output]),
-                        "submission_date": self.workspace_version
+                        "submission_date": self.workspace_version,
                     },
                     "file_core": {
                         "file_name": outputs[output].split("/")[-1],
                         "file_source": self.file_source,
                         "format": format_map.get_file_format(outputs[output]),
-                        "content_description": [self.BAI_CONTENT_DESCRIPTION]
-                    }
+                        "content_description": [self.BAI_CONTENT_DESCRIPTION],
+                    },
                 }
 
     def __pipeline_outputs__(self):
@@ -199,7 +204,7 @@ class AnalysisFile():
 
         if self.project_level:
             print("Using project-level outputs....")
-            return {"project_level.loom" : self.input_file}
+            return {"project_level.loom": self.input_file}
 
         # If pipeline type is optimus then we can can get the intermediate outputs from metadata.json
         if self.pipeline_type.lower() == "optimus":
@@ -209,7 +214,10 @@ class AnalysisFile():
 
         # If pipeline type is ss2 then create 'outputs' by adding the localized file to an object
         elif self.pipeline_type.lower() == "ss2":
-            return {"ss2_intermediate.bai": self.ss2_bai_file, "ss2_intermediate.bam": self.ss2_bam_file}
+            return {
+                "ss2_intermediate.bai": self.ss2_bai_file,
+                "ss2_intermediate.bam": self.ss2_bam_file,
+            }
 
         raise UnsupportedPipelineType("Pipeline must be optimus or ss2")
 
@@ -224,31 +232,49 @@ class AnalysisFile():
 
 # Entry point for unit tests
 def test_build_analysis_file(
-    input_uuid,
-    input_file,
-    pipeline_type,
-    workspace_version,
-        project_level=False):
+    input_uuid, input_file, pipeline_type, workspace_version, project_level=False
+):
 
     test_analysis_file = AnalysisFile(
-        input_uuid,
-        input_file,
-        pipeline_type,
-        workspace_version,
-        project_level
+        input_uuid, input_file, pipeline_type, workspace_version, project_level
     )
     return test_analysis_file.get_outputs_json()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)")
-    parser.add_argument("--input_uuid", required=True, help="Input file UUID from the HCA Data Browser")
-    parser.add_argument("--workspace_version", required=True, help="Workspace version value i.e. timestamp for workspace")
-    parser.add_argument("--project_level", required=True, type=lambda x: bool(strtobool(x)), help="Boolean representing project level vs intermediate level")
-    parser.add_argument("--input_file", required=False, help="Path to metadata.json for intermediate level, path to merged loom file for project level")
-    parser.add_argument("--ss2_bam_file", required=False, help="Localized path to intermediate ss2 bam file")
-    parser.add_argument("--ss2_bai_file", required=False, help="Localized path to intermediate ss2 bai file")
+    parser.add_argument(
+        "--pipeline_type", required=True, help="Type of pipeline(SS2 or Optimus)"
+    )
+    parser.add_argument(
+        "--input_uuid", required=True, help="Input file UUID from the HCA Data Browser"
+    )
+    parser.add_argument(
+        "--workspace_version",
+        required=True,
+        help="Workspace version value i.e. timestamp for workspace",
+    )
+    parser.add_argument(
+        "--project_level",
+        required=True,
+        type=lambda x: bool(strtobool(x)),
+        help="Boolean representing project level vs intermediate level",
+    )
+    parser.add_argument(
+        "--input_file",
+        required=False,
+        help="Path to metadata.json for intermediate level, path to merged loom file for project level",
+    )
+    parser.add_argument(
+        "--ss2_bam_file",
+        required=False,
+        help="Localized path to intermediate ss2 bam file",
+    )
+    parser.add_argument(
+        "--ss2_bai_file",
+        required=False,
+        help="Localized path to intermediate ss2 bai file",
+    )
 
     args = parser.parse_args()
 
@@ -259,7 +285,7 @@ def main():
         args.workspace_version,
         args.project_level,
         args.ss2_bam_file,
-        args.ss2_bai_file
+        args.ss2_bai_file,
     )
 
     # Write analysis file for each file type

@@ -9,7 +9,7 @@ from adapter_tools.utilities.schema_utils import SCHEMAS
 from adapter_tools.utilities import format_map
 
 
-class Descriptor():
+class Descriptor:
     """Descriptor class implements the creation of a json file descriptor for Optimus and SS2 pipeline outputs
 
     HCA system consumes json files that describe the .bam/.loom/.fa outputs of Optimus and SS2 pipelines
@@ -48,7 +48,8 @@ class Descriptor():
         file_path,
         pipeline_type,
         creation_time,
-            workspace_version):
+        workspace_version,
+    ):
 
         # Grab timestamp that adheres to schema
         file_version = format_map.convert_datetime(creation_time)
@@ -71,7 +72,9 @@ class Descriptor():
         # file_entity_id is the ID for the bam/loom/bai/fa being processed
         #
         # file_id is the ID for the descriptor file being created
-        file_entity_id = format_map.get_uuid5(f"{input_uuid}{entity_type}{file_extension}")
+        file_entity_id = format_map.get_uuid5(
+            f"{input_uuid}{entity_type}{file_extension}"
+        )
         file_id = format_map.get_uuid5(file_entity_id)
 
         self.size = int(size)
@@ -92,16 +95,16 @@ class Descriptor():
 
     def __descriptor__(self):
         return {
-            "describedBy" : self.describedBy,
-            "schema_type" : self.schema_type,
-            "schema_version" : self.schema_version,
-            "content_type" : self.content_type,
-            "size" : self.size,
-            "sha256" : self.sha256,
-            "crc32c" : self.crc32c,
-            "file_id" : self.file_id,
-            "file_version" : self.file_version,
-            "file_name" : self.file_name
+            "describedBy": self.describedBy,
+            "schema_type": self.schema_type,
+            "schema_version": self.schema_version,
+            "content_type": self.content_type,
+            "size": self.size,
+            "sha256": self.sha256,
+            "crc32c": self.crc32c,
+            "file_id": self.file_id,
+            "file_version": self.file_version,
+            "file_name": self.file_name,
         }
 
     def get_json(self):
@@ -140,7 +143,8 @@ def test_build_file_descriptor(
     file_path,
     pipeline_type,
     creation_time,
-        workspace_version):
+    workspace_version,
+):
 
     test_file_descriptor = Descriptor(
         size,
@@ -150,21 +154,38 @@ def test_build_file_descriptor(
         file_path,
         pipeline_type,
         creation_time,
-        workspace_version)
+        workspace_version,
+    )
 
     return test_file_descriptor.get_json()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--size", required=True, type=int, help="size of the file in Mb")
+    parser.add_argument(
+        "--size", required=True, type=int, help="size of the file in Mb"
+    )
     parser.add_argument('--sha256', required=True, help='sha256 of the file.')
     parser.add_argument('--crc32c', required=True, help='crc32c of the file.')
-    parser.add_argument('--pipeline_type', required=True, help='Type of pipeline (SS2 or Optimus)')
-    parser.add_argument('--file_path', required=True, help='Path to the loom/bam file to describe.')
-    parser.add_argument('--input_uuid', required=True, help='Input file UUID from the HCA Data Browser.')
-    parser.add_argument('--creation_time', required=True, help='Time of file creation, as reported by "gsutil ls -l"',)
-    parser.add_argument('--workspace_version', required=True, help='Workspace version value i.e. timestamp for workspace')
+    parser.add_argument(
+        '--pipeline_type', required=True, help='Type of pipeline (SS2 or Optimus)'
+    )
+    parser.add_argument(
+        '--file_path', required=True, help='Path to the loom/bam file to describe.'
+    )
+    parser.add_argument(
+        '--input_uuid', required=True, help='Input file UUID from the HCA Data Browser.'
+    )
+    parser.add_argument(
+        '--creation_time',
+        required=True,
+        help='Time of file creation, as reported by "gsutil ls -l"',
+    )
+    parser.add_argument(
+        '--workspace_version',
+        required=True,
+        help='Workspace version value i.e. timestamp for workspace',
+    )
 
     args = parser.parse_args()
 
@@ -177,13 +198,16 @@ def main():
         args.file_path,
         args.pipeline_type,
         args.creation_time,
-        args.workspace_version)
+        args.workspace_version,
+    )
 
     # Get the JSON content to be written
     descriptor_json = file_descriptor.get_json()
 
     # Generate filename based on UUID and version
-    descriptor_json_filename = f"{file_descriptor.entity_id}_{file_descriptor.work_version}.json"
+    descriptor_json_filename = (
+        f"{file_descriptor.entity_id}_{file_descriptor.work_version}.json"
+    )
 
     print(f"Writing {file_descriptor.extension} descriptor file to disk...")
     with open(descriptor_json_filename, 'w') as f:

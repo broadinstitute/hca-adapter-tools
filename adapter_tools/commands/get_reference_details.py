@@ -9,9 +9,19 @@ MOUSE = "mus musculus"
 
 def check_reference_and_species(reference_filename, species):
     if "grch" in reference_filename.lower() and species.lower() != HUMAN:
-        raise UnknownReferenceError('Reference file must match the species. {} is not a known reference for {}.'.format(reference_filename, species))
-    elif ("grcm" in reference_filename.lower() or "mm10" in reference_filename.lower()) and species.lower() != MOUSE:
-        raise UnknownReferenceError('Reference file must match the species. {} is not a known reference for {}.'.format(reference_filename, species))
+        raise UnknownReferenceError(
+            'Reference file must match the species. {} is not a known reference for {}.'.format(
+                reference_filename, species
+            )
+        )
+    elif (
+        "grcm" in reference_filename.lower() or "mm10" in reference_filename.lower()
+    ) and species.lower() != MOUSE:
+        raise UnknownReferenceError(
+            'Reference file must match the species. {} is not a known reference for {}.'.format(
+                reference_filename, species
+            )
+        )
 
 
 def get_taxon_id_and_ref_version(species):
@@ -20,7 +30,9 @@ def get_taxon_id_and_ref_version(species):
     elif species.lower() == MOUSE:
         return ("10090", "GencodeM21")
     else:
-        raise UnknownReferenceError('Species must be either mouse ("Mus musculus") or human ("Homo sapiens")')
+        raise UnknownReferenceError(
+            'Species must be either mouse ("Mus musculus") or human ("Homo sapiens")'
+        )
 
 
 def get_assembly_type(reference_filename):
@@ -60,15 +72,16 @@ def get_reference_type(reference_filename):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--reference-file',
-                        dest='reference_file',
-                        required=True,
-                        help='path to cromwell metadata json')
+    parser.add_argument(
+        '--reference-file',
+        dest='reference_file',
+        required=True,
+        help='path to cromwell metadata json',
+    )
 
-    parser.add_argument('--species',
-                        dest='species',
-                        required=True,
-                        help='species of input samples')
+    parser.add_argument(
+        '--species', dest='species', required=True, help='species of input samples'
+    )
 
     args = parser.parse_args()
 
