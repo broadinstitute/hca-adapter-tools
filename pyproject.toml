@@ -1,0 +1,7 @@
+# string-normalization would change everything to double quotes, who wants that?
+[tool.black]
+line-length = 88
+target-version = ['py36', 'py37', 'py38']
+include = '\.pyi?$'
+skip-string-normalization = true
+
