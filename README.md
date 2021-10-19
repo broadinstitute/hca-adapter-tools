@@ -24,9 +24,9 @@ It is also suggested to enable linting via _flake8_ to conform with our style gu
 ```bash
 $ virtualenv venv
 $ source venv/bin/activate
-$
+
 $ pip install -r requirements.txt
-$
+
 $ pip install -e .
 $ pre-commit install 
 ```
