@@ -12,7 +12,7 @@ from distutils.util import strtobool
 
 
 class AnalysisFile:
-    """AnalysisFile class implements the creation of a  json analysis file for Optimus and SS2 pipeline outputs
+    """AnalysisFile class implements the creation of a json analysis file for Optimus and SS2 pipeline outputs
 
 
     HCA system consumes json files that describe the .bam/.loom outputs of Optimus and SS2 pipelines.

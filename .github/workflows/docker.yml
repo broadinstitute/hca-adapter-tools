@@ -28,7 +28,7 @@ jobs:
         docker push "${IMAGE}:${BRANCH}"
 
     - name: Build/Push master
-      if: contains ('refs/heads/master', github.ref)
+      if: contains ('refs/heads/main', github.ref)
       run: |
         export TIMESTAMP=$(date +"%s")
         docker build -t "${IMAGE}:latest" .
