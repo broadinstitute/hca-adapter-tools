@@ -230,8 +230,8 @@ class AnalysisFile:
         return self.workspace_version
 
 
-# Entry point for unit tests
-def test_build_analysis_file(
+# Entry point for Optimus Intermediate test
+def test_build_analysis_file_optimus(
     input_uuid, input_file, pipeline_type, workspace_version, project_level=False
 ):
 

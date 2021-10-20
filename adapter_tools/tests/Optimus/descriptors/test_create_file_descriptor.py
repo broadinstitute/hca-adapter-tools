@@ -2,7 +2,7 @@ import pytest
 import os
 import json
 
-from adapter_tools.tests.optimus.descriptors.input_data import LOOM_INPUT, BAM_INPUT
+from .input_data import LOOM_INPUT, BAM_INPUT
 import adapter_tools.commands.create_file_descriptor as cfd
 
 
@@ -39,7 +39,7 @@ def test_loom_intermediate(loom_input_data):
     assert expected_output == loom_file_descriptor
 
 
-# Crete intemediate bam descriptor file
+# Create intermediate bam descriptor file
 def test_bam_intermediate(bam_input_data):
     bam_file_descriptor = cfd.test_build_file_descriptor(
         bam_input_data['size'],
