@@ -37,7 +37,7 @@ setup(
             'get-process-input-ids=adapter_tools.commands.get_process_input_ids:main',
             'get-reference-file-details=adapter_tools.commands.get_reference_file_details:main',
             'merge-looms=adapter_tools.commands.merge_looms:main',
-            'parse-metadata=adapter_tools.commands.parse_metadata:main',
+            'parse-metadata=adapter_tools.commands.parse_cromwell_metadata:main',
         ]
     },
     include_package_data=True,
