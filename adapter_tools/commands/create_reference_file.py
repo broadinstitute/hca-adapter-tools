@@ -4,8 +4,8 @@ import argparse
 import json
 import os
 
-from pipeline_tools.shared.schema_utils import SCHEMAS
-from pipeline_tools.shared.submission import format_map
+from adapter_tools.utilites.schema_utils import SCHEMAS
+from adapter_tools.utilities import format_map
 
 
 class ReferenceFile:

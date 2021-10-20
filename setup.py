@@ -35,7 +35,7 @@ setup(
             'get-analysis-workflow-metadata=adapter_tools.commands.get_analysis_workflow_metadata:main',
             'get-bucket-date=adapter_tools.commands.get_bucket_date:main',
             'get-process-input-ids=adapter_tools.commands.get_process_input_ids:main',
-            'get-reference-file-details=adapter_tools.commands.get_reference_file_details:main',
+            'get-reference-file-details=adapter_tools.commands.get_reference_details:main',
             'merge-looms=adapter_tools.commands.merge_looms:main',
             'parse-metadata=adapter_tools.commands.parse_cromwell_metadata:main',
         ]
