@@ -3,6 +3,7 @@ import os
 import json
 
 from .input_data import LOOM_INPUT, BAM_INPUT
+
 import adapter_tools.commands.create_file_descriptor as cfd
 
 
