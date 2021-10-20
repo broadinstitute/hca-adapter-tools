@@ -32,9 +32,9 @@ jobs:
       run: |
         export TIMESTAMP=$(date +"%s")
         docker build -t "${IMAGE}:latest" .
-        docker tag "${IMAGE}:latest" "${IMAGE}:master_${TIMESTAMP}"
+        docker tag "${IMAGE}:latest" "${IMAGE}:main_${TIMESTAMP}"
         docker push "${IMAGE}:latest"
-        docker push "${IMAGE}:master_${TIMESTAMP}"
+        docker push "${IMAGE}:main_${TIMESTAMP}"
 
     - run: |
         echo "Successfully completed"
