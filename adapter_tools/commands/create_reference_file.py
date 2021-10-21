@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 
-from adapter_tools.utilites.schema_utils import SCHEMAS
+from adapter_tools.utilities.schema_utils import SCHEMAS
 from adapter_tools.utilities import format_map
 
 
