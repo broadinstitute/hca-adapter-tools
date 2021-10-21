@@ -139,7 +139,9 @@ class LinksFile:
             with open(analysis_protocol_list_path) as f:
                 self.analysis_protocol_list_path = json.load(f)
 
-            # If single end read then this will load an empty array
+            # If single end read then this will load a single element array with empty string
+            # This is just how bash works when piping an empty array to a file through jq
+            # array = [""]
             with open(ss2_fastq2) as f:
                 self.ss2_fastq2 = json.load(f)
 
@@ -255,7 +257,9 @@ class LinksFile:
             {"input_id": self.ss2_fastq1[index], "input_type": "sequence_file"}
         ]
 
-        if self.ss2_fastq2:
+        # Verify first element isn't empty string and the length is at least 1
+        # Need to at least check the case where we have a single pair
+        if not self.ss2_fastq2[0] == "" and len(self.ss2_fastq2) >= 1:
             intermediate_input.append(
                 {"input_id": self.ss2_fastq2[index], "input_type": "sequence_file"}
             )
