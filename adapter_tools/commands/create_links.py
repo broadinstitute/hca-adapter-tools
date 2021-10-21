@@ -229,8 +229,6 @@ class LinksFile:
             inputs for intermediate are the fastq hashes, inputs for project are intermediate loom hashes
         """
 
-        print(f'input-{self.input_uuids}')
-
         inputs = []
         for input_uuid in self.input_uuids:
             inputs.append(
