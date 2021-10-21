@@ -383,26 +383,18 @@ class LinksFile:
 
 
 # Entry point for unit tests
-def test_build_links_file(
-    project_id,
-    input_uuids,
-    output_file_path,
-    file_name_string,
-    workspace_version,
-    analysis_process_path,
-    analysis_protocol_path,
-    project_level=False,
-):
+def test_build_links_file_optimus(links_test_input):
 
     test_links_file = LinksFile(
-        project_id,
-        input_uuids,
-        output_file_path,
-        file_name_string,
-        workspace_version,
-        analysis_process_path,
-        analysis_protocol_path,
-        project_level,
+        links_test_input["project_id"],
+        links_test_input["pipeline_type"],
+        links_test_input["file_name_string"],
+        links_test_input["workspace_version"],
+        links_test_input["output_file_path"],
+        links_test_input["input_uuids"],
+        links_test_input["analysis_process_path"],
+        links_test_input["analysis_protocol_path"],
+        links_test_input["project_level"],
     )
 
     return test_links_file.get_json()

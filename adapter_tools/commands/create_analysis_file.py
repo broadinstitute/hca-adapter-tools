@@ -231,13 +231,16 @@ class AnalysisFile:
 
 
 # Entry point for Optimus Intermediate test
-def test_build_analysis_file_optimus(
-    input_uuid, input_file, pipeline_type, workspace_version, project_level=False
-):
+def test_build_analysis_file_optimus(analysis_test_input):
 
     test_analysis_file = AnalysisFile(
-        input_uuid, input_file, pipeline_type, workspace_version, project_level
+        analysis_test_input["input_uuid"],
+        analysis_test_input["input_file"],
+        analysis_test_input["pipeline_type"],
+        analysis_test_input["workspace_version"],
+        analysis_test_input["project_level"],
     )
+
     return test_analysis_file.get_outputs_json()
 
 

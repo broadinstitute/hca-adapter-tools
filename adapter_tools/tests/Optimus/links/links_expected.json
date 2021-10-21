@@ -1,0 +1,46 @@
+{
+  "describedBy": "https://schema.humancellatlas.org/system/2.1.1/links",
+  "links": [
+    {
+      "inputs": [
+        {
+          "input_id": "0af14740-753f-42e4-a025-e02c438b8591",
+          "input_type": "sequence_file"
+        },
+        {
+          "input_id": "0132474c-2452-4c80-9334-d95b999864ad",
+          "input_type": "sequence_file"
+        },
+        {
+          "input_id": "9dd8ad36-5570-4109-ac92-04363aafafe5",
+          "input_type": "sequence_file"
+        },
+        {
+          "input_id": "3f1313f0-fe17-4063-9955-56ead2cb7de0",
+          "input_type": "sequence_file"
+        }
+      ],
+      "link_type": "process_link",
+      "outputs": [
+        {
+          "output_id": "25aecc3d-1c3b-58d9-b65d-1134654c30bb",
+          "output_type": "analysis_file"
+        },
+        {
+          "output_id": "cf1ce28a-8c0f-5486-b0e7-94b63fe8ac16",
+          "output_type": "analysis_file"
+        }
+      ],
+      "process_id": "14438140-4f0f-4dd8-b9c4-00212f112a99",
+      "process_type": "analysis_process",
+      "protocols": [
+        {
+          "protocol_id": "61223a2e-a775-53f4-8aab-fc3b4ef88722",
+          "protocol_type": "analysis_protocol"
+        }
+      ]
+    }
+  ],
+  "schema_type": "links",
+  "schema_version": "2.1.1"
+}
