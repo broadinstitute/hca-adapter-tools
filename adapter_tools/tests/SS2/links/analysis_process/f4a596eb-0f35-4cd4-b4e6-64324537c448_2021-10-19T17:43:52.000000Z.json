@@ -1,0 +1,21 @@
+{
+  "analysis_run_type": "run",
+  "describedBy": "https://schema.humancellatlas.org/type/process/analysis/12.0.0/analysis_process",
+  "inputs": [],
+  "process_core": {
+    "process_id": "f4a596eb-0f35-4cd4-b4e6-64324537c448"
+  },
+  "provenance": {
+    "document_id": "f4a596eb-0f35-4cd4-b4e6-64324537c448",
+    "submission_date": "2021-10-19T17:43:52.000000Z"
+  },
+  "reference_files": [],
+  "schema_type": "process",
+  "schema_version": "12.0.0",
+  "tasks": [],
+  "timestamp_start_utc": "2021-10-14T20:08:14.015Z",
+  "timestamp_stop_utc": "2021-10-14T20:20:34.572Z",
+  "type": {
+    "text": "analysis; merge matrices"
+  }
+}

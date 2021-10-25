@@ -1,0 +1,65 @@
+{
+  "describedBy": "https://schema.humancellatlas.org/system/2.1.1/links",
+  "links": [
+    {
+      "inputs": [
+        {
+          "input_id": "4f1573c1-afe2-43ff-afb4-6d23bf5a4fc6",
+          "input_type": "sequence_file"
+        },
+        {
+          "input_id": "3eb9015d-68c3-442d-9b62-dcde216043f7",
+          "input_type": "sequence_file"
+        }
+      ],
+      "link_type": "process_link",
+      "outputs": [
+        {
+          "output_id": "dec4252b-fbbd-5ce1-b549-8ff337368445",
+          "output_type": "analysis_file"
+        },
+        {
+          "output_id": "26a61eca-1a53-578d-8744-393c4c9ad860",
+          "output_type": "analysis_file"
+        }
+      ],
+      "process_id": "768837b7-aa23-4886-8117-1abd011f52d2",
+      "process_type": "analysis_process",
+      "protocols": [
+        {
+          "protocol_id": "89d0df81-5102-528b-9779-95614dcea146",
+          "protocol_type": "analysis_protocol"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "input_id": "dec4252b-fbbd-5ce1-b549-8ff337368445",
+          "input_type": "analysis_file"
+        },
+        {
+          "input_id": "26a61eca-1a53-578d-8744-393c4c9ad860",
+          "input_type": "analysis_file"
+        }
+      ],
+      "link_type": "process_link",
+      "outputs": [
+        {
+          "output_id": "a28fd414-2feb-54b6-a21a-53e61f593193",
+          "output_type": "analysis_file"
+        }
+      ],
+      "process_id": "f4a596eb-0f35-4cd4-b4e6-64324537c448",
+      "process_type": "analysis_process",
+      "protocols": [
+        {
+          "protocol_id": "e1914217-708b-5bdf-907f-97235dc8fd9e",
+          "protocol_type": "analysis_protocol"
+        }
+      ]
+    }
+  ],
+  "schema_type": "links",
+  "schema_version": "2.1.1"
+}

@@ -1,6 +1,6 @@
 import os
 
-cromwell_metadata_path = expected_output_path = os.path.join(
+cromwell_metadata_path = os.path.join(
     os.path.dirname(__file__), "cromwell_metadata.json"
 )
 
