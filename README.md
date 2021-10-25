@@ -35,7 +35,7 @@ $ pre-commit install
 
 This repo comes with some simple sanity-check unit tests to ensure that the critical functionality of the adapters is running as expected.
 
-If functionality of the adapters changers or there are schema updates then please update the truth set for the specified test which will be found in `adapter_tools/tests/*/*/*_expected.json`
+If functionality of the adapters changes or there are schema updates then please update the truth set for the specified test which will be found in `adapter_tools/tests/*/*/*_expected.json`
 
 **A test run in Terra to should still be executed to ensure end-to-end functionality.**
 
