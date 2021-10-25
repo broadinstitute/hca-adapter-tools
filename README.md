@@ -40,7 +40,7 @@ If functionality of the adapters changes or there are schema updates then please
 **A test run in Terra to should still be executed to ensure end-to-end functionality.**
 
 ```bash
-pytest -v
+$ pytest -v
 ```
 
 ## :boom: Troubleshooting
