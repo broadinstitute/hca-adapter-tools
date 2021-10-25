@@ -244,6 +244,22 @@ def test_build_analysis_file_optimus(analysis_test_input):
     return test_analysis_file.get_outputs_json()
 
 
+# Entry point for SS2 Intermediate test
+def test_build_analysis_file_ss2(analysis_test_input):
+
+    test_analysis_file = AnalysisFile(
+        analysis_test_input["input_uuid"],
+        analysis_test_input["input_file"],
+        analysis_test_input["pipeline_type"],
+        analysis_test_input["workspace_version"],
+        analysis_test_input["project_level"],
+        analysis_test_input["ss2_bam_file"],
+        analysis_test_input["ss2_bai_file"],
+    )
+
+    return test_analysis_file.get_outputs_json()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
