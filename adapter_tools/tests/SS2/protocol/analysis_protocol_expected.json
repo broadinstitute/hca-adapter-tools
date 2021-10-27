@@ -1,0 +1,16 @@
+{
+  "computational_method": "https://dockstore.org/workflows/github.com/broadinstitute/warp/Smartseq2_Single_Sample:SmartSeq2SingleSample_v5.1.5",
+  "describedBy": "https://schema.humancellatlas.org/type/protocol/analysis/9.1.0/analysis_protocol",
+  "protocol_core": {
+    "protocol_id": "SmartSeq2SingleSample_v5.1.5"
+  },
+  "provenance": {
+    "document_id": "89d0df81-5102-528b-9779-95614dcea146",
+    "submission_date": "2021-10-19T17:43:52.000000Z"
+  },
+  "schema_type": "protocol",
+  "schema_version": "9.1.0",
+  "type": {
+    "text": "analysis_protocol"
+  }
+}

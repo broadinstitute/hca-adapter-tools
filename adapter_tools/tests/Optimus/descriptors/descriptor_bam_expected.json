@@ -1,0 +1,12 @@
+{ 
+  "describedBy": "https://schema.humancellatlas.org/system/2.0.0/file_descriptor",
+  "sha256": "5cf28da2025abe5c072f759bb4bc8646fd87ca51e92f269c1947a78a407fa8be",
+  "file_name": "6f911b71-158e-4f50-b8e5-395f386a343b.bam",
+  "file_id": "09995332-3983-5b3d-bfd2-e0b9eb45f296",
+  "file_version": "2021-09-09T21:52:41.000000Z",
+  "content_type": "application/octet-stream",
+  "schema_type": "file_descriptor",
+  "schema_version": "2.0.0",
+  "crc32c": "ca631ead",
+  "size": 8465919875
+}

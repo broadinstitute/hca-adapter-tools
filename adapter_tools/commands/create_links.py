@@ -87,9 +87,6 @@ class LinksFile:
         project_level=False,
     ):
 
-        print(input_uuids)
-        print(pipeline_type)
-
         # Create UUID to save the file as
         file_prehash = f"{file_name_string}"
         subgraph_uuid = format_map.get_uuid5(file_prehash)
@@ -228,8 +225,6 @@ class LinksFile:
         """Add all input files based off the supplied UUIDs, Optimus input object are non-nested
             inputs for intermediate are the fastq hashes, inputs for project are intermediate loom hashes
         """
-
-        print(f'input-{self.input_uuids}')
 
         inputs = []
         for input_uuid in self.input_uuids:
@@ -383,26 +378,43 @@ class LinksFile:
 
 
 # Entry point for unit tests
-def test_build_links_file(
-    project_id,
-    input_uuids,
-    output_file_path,
-    file_name_string,
-    workspace_version,
-    analysis_process_path,
-    analysis_protocol_path,
-    project_level=False,
-):
+def test_build_links_file_optimus(links_test_input):
 
     test_links_file = LinksFile(
-        project_id,
-        input_uuids,
-        output_file_path,
-        file_name_string,
-        workspace_version,
-        analysis_process_path,
-        analysis_protocol_path,
-        project_level,
+        links_test_input["project_id"],
+        links_test_input["pipeline_type"],
+        links_test_input["file_name_string"],
+        links_test_input["workspace_version"],
+        links_test_input["output_file_path"],
+        links_test_input["input_uuids"],
+        links_test_input["analysis_process_path"],
+        links_test_input["analysis_protocol_path"],
+        links_test_input["project_level"],
+    )
+
+    return test_links_file.get_json()
+
+
+# Entry point for unit tests
+def test_build_links_file_SS2(links_test_input):
+
+    test_links_file = LinksFile(
+        links_test_input["project_id"],
+        links_test_input["pipeline_type"],
+        links_test_input["file_name_string"],
+        links_test_input["workspace_version"],
+        links_test_input["output_file_path"],
+        links_test_input["input_uuids"],
+        links_test_input["analysis_process_path"],
+        links_test_input["analysis_protocol_path"],
+        links_test_input["input_uuids_path"],
+        links_test_input["analysis_process_list_path"],
+        links_test_input["analysis_protocol_list_path"],
+        links_test_input["ss2_bam"],
+        links_test_input["ss2_bai"],
+        links_test_input["ss2_fastq1"],
+        links_test_input["ss2_fastq2"],
+        links_test_input["project_level"],
     )
 
     return test_links_file.get_json()

@@ -1,0 +1,44 @@
+[
+  {
+    "describedBy": "https://schema.humancellatlas.org/type/file/6.3.0/analysis_file",
+    "file_core": {
+      "content_description": [
+        {
+          "ontology": "data:3917",
+          "ontology_label": "Count Matrix",
+          "text": "DCP/2-generated matrix"
+        }
+      ],
+      "file_name": "6f911b71-158e-4f50-b8e5-395f386a343b.loom",
+      "file_source": "DCP/2 Analysis",
+      "format": "loom"
+    },
+    "provenance": {
+      "document_id": "25aecc3d-1c3b-58d9-b65d-1134654c30bb",
+      "submission_date": "2021-05-24T12:00:00.000000Z"
+    },
+    "schema_type": "file",
+    "schema_version": "6.3.0"
+  },
+  {
+    "describedBy": "https://schema.humancellatlas.org/type/file/6.3.0/analysis_file",
+    "file_core": {
+      "content_description": [
+        {
+          "ontology": "data:1383",
+          "ontology_label": "Nucleic acid sequence alignment",
+          "text": "DCP/2-sequence alignment"
+        }
+      ],
+      "file_name": "6f911b71-158e-4f50-b8e5-395f386a343b.bam",
+      "file_source": "DCP/2 Analysis",
+      "format": "bam"
+    },
+    "provenance": {
+      "document_id": "cf1ce28a-8c0f-5486-b0e7-94b63fe8ac16",
+      "submission_date": "2021-05-24T12:00:00.000000Z"
+    },
+    "schema_type": "file",
+    "schema_version": "6.3.0"
+  }
+]
