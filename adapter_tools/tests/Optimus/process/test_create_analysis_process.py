@@ -12,7 +12,7 @@ def analysis_process_input():
     return ANALYSIS_PROCESS_INPUT
 
 
-# Creat intermediate analysis process file
+# Create intermediate analysis process file
 def test_create_analysis_process(analysis_process_input):
     analysis_process_file = cap.test_build_analysis_process_optimus(
         analysis_process_input
