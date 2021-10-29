@@ -1,0 +1,24 @@
+[
+  {
+    "describedBy": "https://schema.humancellatlas.org/type/file/6.3.0/analysis_file",
+    "file_core": {
+      "content_description": [
+        {
+          "ontology": "data:3917",
+          "ontology_label": "Count Matrix",
+          "text": "DCP/2-generated matrix"
+        }
+      ],
+      "file_name": "Bone-Marrow-Myeloma-human-hematopoeitic-SS2.loom",
+      "file_source": "DCP/2 Analysis",
+      "format": "loom"
+    },
+    "provenance": {
+      "document_id": "a28fd414-2feb-54b6-a21a-53e61f593193",
+      "submission_date": "2021-10-19T17:43:52.000000Z",
+      "submitter_id": "e67aaabe-93ea-564a-aa66-31bc0857b707"
+    },
+    "schema_type": "file",
+    "schema_version": "6.3.0"
+  }
+]

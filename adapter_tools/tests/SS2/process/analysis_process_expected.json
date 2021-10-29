@@ -1,0 +1,68 @@
+{
+  "analysis_run_type": "run",
+  "describedBy": "https://schema.humancellatlas.org/type/process/analysis/12.0.0/analysis_process",
+  "inputs": [
+    {
+      "parameter_name": "rrna_intervals",
+      "parameter_value": "gs://gcp-public-data--broad-references/hg38/v0/gencode.v27.primary_assembly.annotation.interval_list"
+    },
+    {
+      "parameter_name": "rsem_ref_index",
+      "parameter_value": "gs://gcp-public-data--broad-references/hg38/v0/rsem_primary_gencode_human_v27.tar"
+    },
+    {
+      "parameter_name": "gene_ref_flat",
+      "parameter_value": "gs://gcp-public-data--broad-references/hg38/v0/gencode.v27.primary_assembly.annotation.refflat.txt"
+    },
+    {
+      "parameter_name": "genome_ref_fasta",
+      "parameter_value": "gs://gcp-public-data--broad-references/hg38/v0/GRCh38.primary_assembly.genome.fa"
+    },
+    {
+      "parameter_name": "fastq2",
+      "parameter_value": "drs://jade-terra.datarepo-prod.broadinstitute.org/v1_1cbf0879-2471-4a8c-bb41-c71d1693021e_c05addea-5505-4c07-9d46-ecc95b6fdfd2"
+    },
+    {
+      "parameter_name": "hisat2_ref_name",
+      "parameter_value": "hisat2_primary_gencode_human_v27"
+    },
+    {
+      "parameter_name": "hisat2_ref_index",
+      "parameter_value": "gs://gcp-public-data--broad-references/hg38/v0/hisat2_primary_gencode_human_v27.tar.gz"
+    },
+    {
+      "parameter_name": "fastq1",
+      "parameter_value": "drs://jade-terra.datarepo-prod.broadinstitute.org/v1_1cbf0879-2471-4a8c-bb41-c71d1693021e_ae25f59b-8852-40b4-8a9c-b309f7f47e17"
+    },
+    {
+      "parameter_name": "stranded",
+      "parameter_value": "NONE"
+    },
+    {
+      "parameter_name": "hisat2_ref_trans_name",
+      "parameter_value": "hisat2_from_rsem_star_primary_gencode_human_v27"
+    },
+    {
+      "parameter_name": "output_name",
+      "parameter_value": "0244354d-cf37-4483-8db3-425b7e504ca6"
+    }
+  ],
+  "process_core": {
+    "process_id": "768837b7-aa23-4886-8117-1abd011f52d2"
+  },
+  "provenance": {
+    "document_id": "768837b7-aa23-4886-8117-1abd011f52d2",
+    "submission_date": "2021-10-19T17:43:52.000000Z"
+  },
+  "reference_files": [
+    "1d2797b0-fc77-5d7c-88f8-09f8dbec836a"
+  ],
+  "schema_type": "process",
+  "schema_version": "12.0.0",
+  "tasks": [],
+  "timestamp_start_utc": "2021-10-14T18:43:29.850Z",
+  "timestamp_stop_utc": "2021-10-14T20:00:45.616Z",
+  "type": {
+    "text": "analysis"
+  }
+}

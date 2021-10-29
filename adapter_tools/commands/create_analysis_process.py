@@ -234,24 +234,34 @@ class AnalysisProcess:
         return self.workspace_version
 
 
-# Entry point for unit tests
-def test_build_analysis_process(
-    input_uuid,
-    input_file,
-    pipeline_type,
-    workspace_version,
-    references=[],
-    project_level=False,
-):
+# Entry point for Optimus unit tests
+def test_build_analysis_process_optimus(process_test_input):
 
     test_analysis_process = AnalysisProcess(
-        input_uuid,
-        input_file,
-        pipeline_type,
-        workspace_version,
-        references,
-        project_level,
+        process_test_input["input_uuid"],
+        process_test_input["input_file"],
+        process_test_input["pipeline_type"],
+        process_test_input["workspace_version"],
+        process_test_input["references"],
+        process_test_input["project_level"],
     )
+
+    return test_analysis_process.get_json()
+
+
+# Entry point for Optimus unit tests
+def test_build_analysis_process_SS2(process_test_input):
+
+    test_analysis_process = AnalysisProcess(
+        process_test_input["input_uuid"],
+        process_test_input["input_file"],
+        process_test_input["pipeline_type"],
+        process_test_input["workspace_version"],
+        process_test_input["references"],
+        process_test_input["project_level"],
+        process_test_input["ss2_index"],
+    )
+
     return test_analysis_process.get_json()
 
 
