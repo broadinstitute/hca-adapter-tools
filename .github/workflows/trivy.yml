@@ -1,0 +1,21 @@
+name: dsp-appsec-trivy
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-scan:
+    name: DSP AppSec Trivy check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        context:
+          - .
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: broadinstitute/dsp-appsec-trivy-action@v1
+        with:
+          context: ${{ matrix.context }}

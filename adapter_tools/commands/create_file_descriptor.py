@@ -135,26 +135,17 @@ class Descriptor:
 
 
 # Entry point for unit tests
-def test_build_file_descriptor(
-    size,
-    sha256,
-    crc32c,
-    input_uuid,
-    file_path,
-    pipeline_type,
-    creation_time,
-    workspace_version,
-):
+def test_build_file_descriptor(descriptor_test_input):
 
     test_file_descriptor = Descriptor(
-        size,
-        sha256,
-        crc32c,
-        input_uuid,
-        file_path,
-        pipeline_type,
-        creation_time,
-        workspace_version,
+        descriptor_test_input["size"],
+        descriptor_test_input["sha256"],
+        descriptor_test_input["crc32c"],
+        descriptor_test_input["input_uuid"],
+        descriptor_test_input["file_path"],
+        descriptor_test_input["pipeline_type"],
+        descriptor_test_input["creation_time"],
+        descriptor_test_input["workspace_version"],
     )
 
     return test_file_descriptor.get_json()

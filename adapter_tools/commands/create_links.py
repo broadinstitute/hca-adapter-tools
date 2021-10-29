@@ -87,9 +87,6 @@ class LinksFile:
         project_level=False,
     ):
 
-        print(input_uuids)
-        print(pipeline_type)
-
         # Create UUID to save the file as
         file_prehash = f"{file_name_string}"
         subgraph_uuid = format_map.get_uuid5(file_prehash)
@@ -139,7 +136,9 @@ class LinksFile:
             with open(analysis_protocol_list_path) as f:
                 self.analysis_protocol_list_path = json.load(f)
 
-            # If single end read then this will load an empty array
+            # If single end read then this will load a single element array with empty string
+            # This is just how bash works when piping an empty array to a file through jq
+            # array = [""]
             with open(ss2_fastq2) as f:
                 self.ss2_fastq2 = json.load(f)
 
@@ -227,8 +226,6 @@ class LinksFile:
             inputs for intermediate are the fastq hashes, inputs for project are intermediate loom hashes
         """
 
-        print(f'input-{self.input_uuids}')
-
         inputs = []
         for input_uuid in self.input_uuids:
             inputs.append(
@@ -255,7 +252,9 @@ class LinksFile:
             {"input_id": self.ss2_fastq1[index], "input_type": "sequence_file"}
         ]
 
-        if self.ss2_fastq2:
+        # Verify first element isn't empty string and the length is at least 1
+        # Need to at least check the case where we have a single pair
+        if not self.ss2_fastq2[0] == "" and len(self.ss2_fastq2) >= 1:
             intermediate_input.append(
                 {"input_id": self.ss2_fastq2[index], "input_type": "sequence_file"}
             )
@@ -379,26 +378,43 @@ class LinksFile:
 
 
 # Entry point for unit tests
-def test_build_links_file(
-    project_id,
-    input_uuids,
-    output_file_path,
-    file_name_string,
-    workspace_version,
-    analysis_process_path,
-    analysis_protocol_path,
-    project_level=False,
-):
+def test_build_links_file_optimus(links_test_input):
 
     test_links_file = LinksFile(
-        project_id,
-        input_uuids,
-        output_file_path,
-        file_name_string,
-        workspace_version,
-        analysis_process_path,
-        analysis_protocol_path,
-        project_level,
+        links_test_input["project_id"],
+        links_test_input["pipeline_type"],
+        links_test_input["file_name_string"],
+        links_test_input["workspace_version"],
+        links_test_input["output_file_path"],
+        links_test_input["input_uuids"],
+        links_test_input["analysis_process_path"],
+        links_test_input["analysis_protocol_path"],
+        links_test_input["project_level"],
+    )
+
+    return test_links_file.get_json()
+
+
+# Entry point for unit tests
+def test_build_links_file_SS2(links_test_input):
+
+    test_links_file = LinksFile(
+        links_test_input["project_id"],
+        links_test_input["pipeline_type"],
+        links_test_input["file_name_string"],
+        links_test_input["workspace_version"],
+        links_test_input["output_file_path"],
+        links_test_input["input_uuids"],
+        links_test_input["analysis_process_path"],
+        links_test_input["analysis_protocol_path"],
+        links_test_input["input_uuids_path"],
+        links_test_input["analysis_process_list_path"],
+        links_test_input["analysis_protocol_list_path"],
+        links_test_input["ss2_bam"],
+        links_test_input["ss2_bai"],
+        links_test_input["ss2_fastq1"],
+        links_test_input["ss2_fastq2"],
+        links_test_input["project_level"],
     )
 
     return test_links_file.get_json()

@@ -1,0 +1,16 @@
+{
+  "computational_method": "https://dockstore.org/workflows/github.com/broadinstitute/warp/Smartseq2_Multisample:MultiSampleSmartSeq2_v2.2.6",
+  "describedBy": "https://schema.humancellatlas.org/type/protocol/analysis/9.1.0/analysis_protocol",
+  "protocol_core": {
+    "protocol_id": "MultiSampleSmartSeq2_v2.2.6"
+  },
+  "provenance": {
+    "document_id": "e1914217-708b-5bdf-907f-97235dc8fd9e",
+    "submission_date": "2021-10-19T17:43:52.000000Z"
+  },
+  "schema_type": "protocol",
+  "schema_version": "9.1.0",
+  "type": {
+    "text": "analysis; merge matrices"
+  }
+}

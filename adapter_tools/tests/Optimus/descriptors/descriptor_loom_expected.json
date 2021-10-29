@@ -1,0 +1,12 @@
+{
+  "describedBy": "https://schema.humancellatlas.org/system/2.0.0/file_descriptor",
+  "sha256": "fc85f3561dd5495b16dc9fdb753aa74f0c2890197c1585859779bb7602e22882",
+  "file_name": "6f911b71-158e-4f50-b8e5-395f386a343b.loom",
+  "file_id": "eb4fb303-8d07-54d2-9d11-fb1b01f125f6",
+  "file_version": "2021-09-09T22:02:57.000000Z",
+  "content_type": "application/vnd.loom",
+  "schema_type": "file_descriptor",
+  "schema_version": "2.0.0",
+  "crc32c": "3348bc9e",
+  "size": 236140579
+}

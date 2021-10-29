@@ -1,0 +1,44 @@
+[
+  {
+    "describedBy": "https://schema.humancellatlas.org/type/file/6.3.0/analysis_file",
+    "file_core": {
+      "content_description": [
+        {
+          "ontology": "data:1383",
+          "ontology_label": "Nucleic acid sequence alignment",
+          "text": "DCP/2-sequence alignment"
+        }
+      ],
+      "file_name": "0244354d-cf37-4483-8db3-425b7e504ca6_qc.bam",
+      "file_source": "DCP/2 Analysis",
+      "format": "bam"
+    },
+    "provenance": {
+      "document_id": "dec4252b-fbbd-5ce1-b549-8ff337368445",
+      "submission_date": "2021-10-19T17:43:52.000000Z"
+    },
+    "schema_type": "file",
+    "schema_version": "6.3.0"
+  },
+  {
+    "describedBy": "https://schema.humancellatlas.org/type/file/6.3.0/analysis_file",
+    "file_core": {
+      "content_description": [
+        {
+          "ontology": "data:3210",
+          "ontology_label": "An index of a genome sequence",
+          "text": "DCP/2-sequence alignment index"
+        }
+      ],
+      "file_name": "0244354d-cf37-4483-8db3-425b7e504ca6_qc.bam.bai",
+      "file_source": "DCP/2 Analysis",
+      "format": "bai"
+    },
+    "provenance": {
+      "document_id": "26a61eca-1a53-578d-8744-393c4c9ad860",
+      "submission_date": "2021-10-19T17:43:52.000000Z"
+    },
+    "schema_type": "file",
+    "schema_version": "6.3.0"
+  }
+]

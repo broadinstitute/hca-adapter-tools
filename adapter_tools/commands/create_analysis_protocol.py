@@ -109,12 +109,14 @@ class AnalysisProtocol:
 
 
 # Entry point for unit tests
-def test_build_analysis_protocol(
-    input_uuid, pipeline_type, pipeline_version, workspace_version, project_level=False
-):
+def test_build_analysis_protocol(protocol_test_input):
 
     test_analysis_protocol = AnalysisProtocol(
-        input_uuid, pipeline_type, pipeline_version, workspace_version, project_level
+        protocol_test_input["input_uuid"],
+        protocol_test_input["pipeline_type"],
+        protocol_test_input["pipeline_version"],
+        protocol_test_input["workspace_version"],
+        protocol_test_input["project_level"],
     )
     return test_analysis_protocol.get_json()
 
