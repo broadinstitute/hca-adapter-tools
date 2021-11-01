@@ -53,6 +53,12 @@ def main():
         help="Paths to bam and loom data_files",
     )
     parser.add_argument(
+        '--is_update_file',
+        dest='is_update_file',
+        required=True,
+        help="Path to staging_area.json update file",
+    )
+    parser.add_argument(
         '--staging-bucket', dest='staging_bucket', help="Path to staging bucket"
     )
 
@@ -64,6 +70,7 @@ def main():
     analysis_files_descriptors_jsons = args.analysis_files_descriptors_jsons
     links_jsons = args.links_jsons
     data_files = args.data_files
+    is_update_file = args.is_update_file
     reference_metadata_jsons = args.reference_metadata_jsons
     reference_file_descriptor_jsons = args.reference_file_descriptor_jsons
     staging_bucket = args.staging_bucket
@@ -142,6 +149,11 @@ def main():
                 ),
                 shell=True,
             )
+
+    with open(is_update_file) as f:
+        is_update_file_list = json.load(f)
+        for file in is_update_file_list:
+            subprocess.run('gsutil cp {0} {1}'.format(file, staging_bucket), shell=True)
 
 
 if __name__ == '__main__':
