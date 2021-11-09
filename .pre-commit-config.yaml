@@ -1,11 +1,13 @@
+exclude: ^adapter_tools/utilities/staging_area_validator.py
 repos:
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.7
+    hooks:
+    - id: flake8
 -   repo: https://github.com/ambv/black
     rev: 19.3b0
     hooks:
     - id: black
-      language_version: python3.9
-      args: [adapter_tools/, --skip-string-normalization]
--   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.7
-    hooks:
-    -   id: flake8
+      exclude: '^adapter_tools/'
+      language_version: python3.8
+      args: [--skip-string-normalization]

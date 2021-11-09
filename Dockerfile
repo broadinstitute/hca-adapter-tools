@@ -18,13 +18,13 @@ RUN set eux; \
             wget \
     ; \
 # Upgrade pip
-pip3 install --upgrade pip \
+    pip3 install --upgrade pip \
     ; \
 # Install adapter_tools
-pip3 install . --trusted-host github.com \
+    pip3 install . --trusted-host github.com \
     ; \
 # Install gsutil
-curl -sSL https://sdk.cloud.google.com | bash \
+    curl -sSL https://sdk.cloud.google.com | bash \
     ; \
 # Install tini
     wget https://github.com/krallin/tini/releases/download/v0.19.0/tini -O /sbin/tini; \
