@@ -7,7 +7,7 @@ repos:
     rev: 19.3b0
     hooks:
     - id: black
-      exclude: '^adapter_tools/utilities/staging_area_validator.py'
+      exclude: '^staging_area_validator*\.py$'
       language_version: python3.8
-      args: [--skip-string-normalization]
+      args: [adapter_tools/ --skip-string-normalization]
 
