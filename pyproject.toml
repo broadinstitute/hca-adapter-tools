@@ -1,4 +1,5 @@
 # string-normalization would change everything to double quotes, who wants that?
+# black does not support := walrus operator in staging_area_validator
 [tool.black]
 line-length = 88
 target-version = ['py36', 'py37', 'py38']
