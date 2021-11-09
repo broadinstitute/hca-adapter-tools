@@ -8,8 +8,6 @@ import argparse
 import sys
 from adapter_tools.utilities.staging_area_validator import StagingAreaValidator
 
-from distutils.util import strtobool
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -25,7 +23,6 @@ def main():
         '-I',
         action='store_true',
         default=False,
-        type=lambda x: bool(strtobool(x)),
         help='Ignore errors caused by metadata files not found '
         'in the staging area for input-only entities.',
     )
@@ -34,7 +31,6 @@ def main():
         '-J',
         action='store_false',
         default=True,
-        type=lambda x: bool(strtobool(x)),
         dest='validate_json',
         help='Do not validate JSON documents against their schema.',
     )
