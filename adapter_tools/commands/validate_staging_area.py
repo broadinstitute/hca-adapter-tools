@@ -6,7 +6,7 @@ Code ported from https://github.com/DataBiosphere/hca-import-validation
 """
 import argparse
 import sys
-from adapter_tools.utilities.staging_area_validator import StagingAreaValidator
+from hca.staging_area_validator import StagingAreaValidator
 
 
 def main():

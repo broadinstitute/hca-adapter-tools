@@ -18,6 +18,7 @@ setup(
         'google-auth<2.0.0',
         'google-cloud-core==1.6.0',
         'google-cloud-storage==1.42.0',
+        'hca-import-validation',
         'jsonschema==3.2.0',
         'loompy==3.0.6',
         'mock>=2.0.0,<3',
