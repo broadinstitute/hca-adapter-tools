@@ -4,7 +4,7 @@ black==19.3b0
 flake8==4.0.1
 google-auth<2.0.0
 google-cloud-storage==1.42.0
-hca-import-validation   
+hca-import-validation==0.0.4
 loompy==3.0.6
 mock>=2.0.0,<3
 pre-commit==1.14.4
