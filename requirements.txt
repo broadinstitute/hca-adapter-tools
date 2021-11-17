@@ -2,7 +2,7 @@ arrow>=0.12.1
 backports.tempfile==1.0
 black==19.3b0
 flake8==4.0.1
-google-auth<2.0.0
+google-auth<=2.0.0
 google-cloud-storage==1.42.0
 hca-import-validation==0.0.4
 loompy==3.0.6

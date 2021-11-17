@@ -14,10 +14,9 @@ setup(
     packages=['adapter_tools'],
     install_requires=[
         'arrow>=0.12.1',
-        'google-auth<2.0.0',
+        'google-auth<=2.0.0',
         'google-cloud-storage==1.42.0',
         'hca-import-validation==0.0.4',
-        'jsonschema==3.2.0',
         'loompy==3.0.6',
         'mock>=2.0.0,<3',
         'requests>=2.20.0,<3',
