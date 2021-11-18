@@ -14,8 +14,9 @@ setup(
     packages=['adapter_tools'],
     install_requires=[
         'arrow>=0.12.1',
-        'google-auth==2.0.0',
+        'google-auth<=2.0.0',
         'google-cloud-storage==1.42.0',
+        'hca-import-validation==0.0.4',
         'loompy==3.0.6',
         'mock>=2.0.0,<3',
         'requests>=2.20.0,<3',
@@ -39,6 +40,7 @@ setup(
             'get-reference-file-details=adapter_tools.commands.get_reference_details:main',
             'merge-looms=adapter_tools.commands.merge_looms:main',
             'parse-metadata=adapter_tools.commands.parse_cromwell_metadata:main',
+            'validate-staging-area=adapter_tools.commands.validate_staging_area:main',
         ]
     },
     include_package_data=True,
