@@ -41,7 +41,7 @@ $ pytest -v
 
 If functionality of the adapters changes or there are schema updates then please update the truth set for the specified test which will be found in `adapter_tools/tests/*/*/*_expected.json`
 
-**A test run in Terra to should still be executed to ensure end-to-end functionality.**
+**A test run in Terra should still be executed to ensure end-to-end functionality.**
 
 ## :boom: Troubleshooting
 If you have any questions about this tool or need some help configuring it please reach out at [dsde-engineer@broadinstitute.org](dsde-engineer@broadinstitute.org).
