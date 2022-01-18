@@ -3,6 +3,7 @@
 import argparse
 import loompy
 import numpy as np
+from scipy import sparse
 
 
 class MergeLooms:
@@ -14,6 +15,7 @@ class MergeLooms:
         organ,
         project_id,
         project_name,
+        min_UMIs, 
         output_loom_file,
     ):
 
@@ -33,57 +35,66 @@ class MergeLooms:
         input_id_list = []
         input_name_list = []
 
-        with loompy.new("intermediate.loom") as dsout:
-            for i in range(len(self.input_loom_files)):
-                loom_file = self.input_loom_files[i]
-                print(loom_file)
-                with loompy.connect(loom_file) as ds:
 
-                    # add global attributes for this file to the running list of global attributes
-                    expression_data_type_list.append(ds.attrs["expression_data_type"])
-                    optimus_output_schema_version_list.append(
-                        ds.attrs["optimus_output_schema_version"]
-                    )
-                    pipeline_versions_list.append(ds.attrs["pipeline_version"])
-                    input_id_metadata_field_list.append(
-                        ds.attrs["input_id_metadata_field"]
-                    )
-                    input_name_metadata_field_list.append(
-                        ds.attrs["input_name_metadata_field"]
-                    )
-                    input_id_list.append(ds.attrs["input_id"])
-                    input_name_list.append(ds.attrs["input_name"])
+        data = np.array([])
+        col = np.array([])
+        row = np.array([])
 
-                    # check that the ordering is the same for the matrices being combined
-                    if dsout.shape[0] != 0:
-                        assert np.array_equal(
-                            dsout.ra["ensembl_ids"], ds.ra["ensembl_ids"]
-                        )
+        row_attrs = {}
+        col_attrs = {}
+        n_rows = 0
+        n_cols = 0
+        for i in range(len(self.input_loom_files)):
+            loom_file = self.input_loom_files[i]
+            print("processing  loom  file", loom_file)
+            with loompy.connect(loom_file) as ds:
+                # add global attributes for this file to the running list of global attributes
+                expression_data_type_list.append(ds.attrs["expression_data_type"])
+                optimus_output_schema_version_list.append(
+                    ds.attrs["optimus_output_schema_version"]
+                )
+                pipeline_versions_list.append(ds.attrs["pipeline_version"])
+                input_id_metadata_field_list.append(
+                    ds.attrs["input_id_metadata_field"]
+                )
+                input_name_metadata_field_list.append(
+                    ds.attrs["input_name_metadata_field"]
+                )
+                input_id_list.append(ds.attrs["input_id"])
+                input_name_list.append(ds.attrs["input_name"])
 
-                    # filter out cells with low counts n_molecules > 1
-                    UMIs = ds.ca['n_molecules']
-                    cells = np.where(UMIs >= 100)[0]
-                    for (ix, selection, view) in ds.scan(items=cells, axis=1):
-                        view.ca['cell_names'] = view.ca['cell_names'] + "-" + str(i)
-                        dsout.add_columns(
-                            view.layers, col_attrs=view.ca, row_attrs=view.ra
-                        )
+                for row_attrib in ds.ra.keys():
+                    if row_attrib in ['Gene', 'ensembl_ids', 'gene_names']:
+                        row_attrs[row_attrib] = ds.ra[row_attrib]
+                    else:
+                        if row_attrib not in row_attrs:
+                            row_attrs[row_attrib] = ds.ra[row_attrib].reshape(ds.ra[row_attrib].shape[0], -1)
+                        else:
+                            row_attrs[row_attrib] = np.concatenate((ds.ra[row_attrib].reshape(ds.ra[row_attrib].shape[0], -1), row_attrs[row_attrib]), axis=1)
 
-        # add global attributes for this file to the running list of global attributes
-        ds = loompy.connect("intermediate.loom")
+                for col_attrib in ds.ca.keys():
+                    if col_attrib not in col_attrs:
+                        col_attrs[col_attrib] = np.array([])
 
-        row_attrs = ds.ra[:]
-        col_attrs = ds.ca[:]
-        sp = ds.sparse()
+                    if col_attrib=='cell_names':
+                        renamed_cell_names = np.array([ x + "-" + str(i) for x in  ds.ca['cell_names']])
+                        col_attrs[col_attrib] = np.concatenate((col_attrs[col_attrib],  renamed_cell_names))
+                    else:
+                        col_attrs[col_attrib] = np.concatenate((col_attrs[col_attrib],  ds.ca[col_attrib]))
 
-        # Write out a new loom file with the sparse matrix
-        loompy.create(self.output_loom_file, sp, row_attrs, col_attrs)
+                newcoo = ds.sparse()
+                data = np.concatenate((data, newcoo.data))
+                col = np.concatenate((col, newcoo.col+n_cols))
+                row = np.concatenate((row, newcoo.row))
+                n_rows = ds.shape[0]
+                n_cols = n_cols + ds.shape[1]
 
-        ds.close()
+        # create a coo matrix to create a loom file
+        coo_matrix = sparse.coo_matrix((data, (row, col)), shape=(n_rows, n_cols))
+        loompy.create(self.output_loom_file, coo_matrix, row_attrs, col_attrs)
 
         # add the global atributes to the loom file
         ds = loompy.connect(self.output_loom_file)
-
         ds.attrs[
             "library_preparation_protocol.library_construction_approach"
         ] = self.library
@@ -143,6 +154,9 @@ def main():
         '--project-name', dest='project_name', required=True, help="Project Name"
     )
     parser.add_argument(
+        '--min-umis', dest='min_umis', required=False, type=int,  default=100, help="Minium number of UMIs (n_molecules) to keep the cell"
+    )
+    parser.add_argument(
         '--output-loom-file',
         dest='output_loom_file',
         required=True,
@@ -158,6 +172,7 @@ def main():
         args.organ,
         args.project_id,
         args.project_name,
+        args.min_umis,
         args.output_loom_file,
     )
 
